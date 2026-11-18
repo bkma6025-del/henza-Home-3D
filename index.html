@@ -9,6 +9,9 @@
 *{box-sizing:border-box}
 body{margin:0;overflow:hidden;background:#eee;color:#28231d;font-family:Tahoma,Arial}
 #scene{position:fixed;inset:0}
+#entrance{position:fixed;inset:0;z-index:30;background:#171511 url('photo1.jpg') center/cover no-repeat;display:flex;align-items:end;justify-content:center;padding:35px}
+#entrance:before{content:"";position:absolute;inset:0;background:linear-gradient(transparent 35%,#000b)}
+#enterBtn{position:relative;z-index:1;border:1px solid #d5b477;background:#a17b3c;color:white;padding:16px 38px;border-radius:12px;font: bold 17px Tahoma;box-shadow:0 5px 25px #0008}
 #top{position:fixed;top:14px;right:14px;left:14px;display:flex;justify-content:space-between;align-items:center;z-index:5;pointer-events:none}
 .brand{background:#fffdf4ef;padding:12px 18px;border-radius:14px;box-shadow:0 3px 18px #0002}
 .brand b{font-size:19px;letter-spacing:2px;color:#a17b3c}
@@ -27,6 +30,7 @@ body{margin:0;overflow:hidden;background:#eee;color:#28231d;font-family:Tahoma,A
 </head>
 <body>
 <div id="loading">در حال آماده‌سازی فروشگاه HENZA HOME...</div>
+<div id="entrance"><button id="enterBtn">ورود به فروشگاه HENZA HOME</button></div>
 <div id="scene"></div>
 
 <div id="top">
@@ -38,7 +42,7 @@ body{margin:0;overflow:hidden;background:#eee;color:#28231d;font-family:Tahoma,A
 
 <div id="bottom">
  <div id="joystick"><div id="stick"></div></div>
- <div id="info">فروشگاه سه‌بعدی<br>برای حرکت، دسته را لمس کن</div>
+ <div id="info">فروشگاه سه‌بعدی<br>دسته را به چپ و راست بچرخان و به جلو حرکت کن</div>
 </div>
 
 <div id="product">
@@ -82,17 +86,11 @@ const glass=new THREE.MeshPhysicalMaterial({color:0xd8e6e8,transparent:true,opac
 function box(x,y,z,w,h,d,m){
  const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);
  o.position.set(x,y,z);
- o.castShadow=true;
- o.receiveShadow=true;
- scene.add(o);
- return o;
+ o.castShadow=true;o.receiveShadow=true;scene.add(o);return o;
 }
 function cylinder(x,y,z,r1,r2,h,m){
  const o=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,32),m);
- o.position.set(x,y,z);
- o.castShadow=true;
- scene.add(o);
- return o;
+ o.position.set(x,y,z);o.castShadow=true;scene.add(o);return o;
 }
 
 // کف و دیوارهای فروشگاه
@@ -102,7 +100,6 @@ box(-11,3,0,.3,6,24,cream);
 box(11,3,0,.3,6,24,cream);
 box(0,5.9,0,22,.2,24,cream);
 
-// خطوط تزئینی کف
 for(let i=-9;i<=9;i+=3)box(i,.002,0,.018,.006,23,mat(0xc4bdb1));
 for(let i=-10;i<=10;i+=3)box(0,.003,i,21,.006,.018,mat(0xc4bdb1));
 
@@ -123,8 +120,7 @@ function shelf(x,z){
  }
  for(let y=.65;y<3.4;y+=.9){
   const l=new THREE.PointLight(0xffd99b,1.5,3);
-  l.position.set(x,y+.18,z-.7);
-  scene.add(l);
+  l.position.set(x,y+.18,z-.7);scene.add(l);
  }
 }
 shelf(-7,-5);shelf(7,-5);
@@ -145,8 +141,7 @@ function product(x,y,z,type,name){
   obj=cylinder(x,y+.3,z,.27,.4,.6,mat(0xe7dfd0,.2,.2));
   cylinder(x,y+.63,z,.29,.29,.06,gold);
  }
- obj.userData.name=name;
- products.push(obj);
+ obj.userData.name=name;products.push(obj);
 }
 
 const names=['قابلمه لوکس','سرویس آشپزخانه','ظرف دکوری','کتری مدرن'];
@@ -154,13 +149,11 @@ let n=0;
 for(const side of [-7,7]){
  for(const z of [-5,1,7]){
   for(let j=0;j<3;j++){
-   product(side+(j-1)*.9,.65,z-.43,j%3,names[n%4]);
-   n++;
+   product(side+(j-1)*.9,.65,z-.43,j%3,names[n%4]);n++;
   }
  }
 }
 
-// میزهای وسط فروشگاه
 for(const z of [-4,2,8]){
  box(0,.55,z,3.5,1.1,1.6,cream);
  box(0,1.12,z,3.55,.09,1.65,gold);
@@ -175,8 +168,7 @@ for(const x of [-9.5,9.5]){
  for(let i=0;i<5;i++){
   const leaf=new THREE.Mesh(new THREE.ConeGeometry(.12,.9,8),mat(0x667a58));
   leaf.position.set(x+(Math.random()-.5)*.5,.95,10+(Math.random()-.5)*.5);
-  leaf.rotation.z=(Math.random()-.5)*.8;
-  scene.add(leaf);
+  leaf.rotation.z=(Math.random()-.5)*.8;scene.add(leaf);
  }
 }
 
@@ -184,18 +176,14 @@ for(const x of [-9.5,9.5]){
 const canvas=document.createElement('canvas');
 canvas.width=1024;canvas.height=256;
 const ctx=canvas.getContext('2d');
-ctx.fillStyle='#292725';
-ctx.fillRect(0,0,1024,256);
-ctx.fillStyle='#c7a46a';
-ctx.font='bold 100px Arial';
-ctx.textAlign='center';
-ctx.fillText('HENZA HOME',512,155);
+ctx.fillStyle='#292725';ctx.fillRect(0,0,1024,256);
+ctx.fillStyle='#c7a46a';ctx.font='bold 100px Arial';
+ctx.textAlign='center';ctx.fillText('HENZA HOME',512,155);
 const texture=new THREE.CanvasTexture(canvas);
 const sign=new THREE.Mesh(new THREE.PlaneGeometry(5,1.25),new THREE.MeshBasicMaterial({map:texture}));
-sign.position.set(0,4.5,-11.55);
-scene.add(sign);
+sign.position.set(0,4.5,-11.55);scene.add(sign);
 
-// کنترل حرکت و نگاه
+// کنترل دوربین
 let yaw=0,pitch=0;
 const keys={};
 addEventListener('keydown',e=>keys[e.key.toLowerCase()]=true);
@@ -204,9 +192,7 @@ addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
 let dragging=false,lastX=0,lastY=0;
 renderer.domElement.addEventListener('pointerdown',e=>{
  if(e.pointerType==='mouse'&&e.button===0){
-  dragging=true;
-  lastX=e.clientX;
-  lastY=e.clientY;
+  dragging=true;lastX=e.clientX;lastY=e.clientY;
  }
 });
 addEventListener('pointerup',()=>dragging=false);
@@ -215,53 +201,45 @@ addEventListener('pointermove',e=>{
   yaw-=(e.clientX-lastX)*.004;
   pitch-=(e.clientY-lastY)*.003;
   pitch=Math.max(-1,Math.min(1,pitch));
-  lastX=e.clientX;
-  lastY=e.clientY;
+  lastX=e.clientX;lastY=e.clientY;
  }
 });
 
-// دسته لمسی
+// دسته گرد: جلو و عقب حرکت، چپ و راست چرخش دوربین
 const joy=document.getElementById('joystick');
 const stick=document.getElementById('stick');
 let joyX=0,joyY=0;
 
 joy.addEventListener('pointerdown',e=>{
- joy.setPointerCapture(e.pointerId);
- moveJoy(e);
+ joy.setPointerCapture(e.pointerId);moveJoy(e);
 });
 joy.addEventListener('pointermove',e=>{
  if(e.buttons)moveJoy(e);
 });
-
 function moveJoy(e){
  const r=joy.getBoundingClientRect();
  let x=e.clientX-(r.left+r.width/2);
  let y=e.clientY-(r.top+r.height/2);
  const len=Math.hypot(x,y),max=35;
  if(len>max){x=x/len*max;y=y/len*max;}
- joyX=x/max;
- joyY=y/max;
+ joyX=x/max;joyY=y/max;
  stick.style.left=(33+x)+'px';
  stick.style.top=(33+y)+'px';
 }
 function resetJoy(){
  joyX=0;joyY=0;
- stick.style.left='33px';
- stick.style.top='33px';
+ stick.style.left='33px';stick.style.top='33px';
 }
 joy.addEventListener('pointerup',resetJoy);
 joy.addEventListener('pointercancel',resetJoy);
 
-// نگاه با کشیدن انگشت
+// نگاه با کشیدن انگشت روی صفحه
 let touchLook=null;
 renderer.domElement.addEventListener('touchstart',e=>{
- if(e.touches.length===1){
-  touchLook={x:e.touches[0].clientX,y:e.touches[0].clientY};
- }
+ if(e.touches.length===1)touchLook={x:e.touches[0].clientX,y:e.touches[0].clientY};
 },{passive:true});
-
 renderer.domElement.addEventListener('touchmove',e=>{
- if(touchLook && e.touches.length===1){
+ if(touchLook&&e.touches.length===1){
   const t=e.touches[0];
   yaw-=(t.clientX-touchLook.x)*.006;
   pitch-=(t.clientY-touchLook.y)*.004;
@@ -275,7 +253,6 @@ renderer.domElement.addEventListener('touchend',()=>touchLook=null);
 const raycaster=new THREE.Raycaster();
 const pointer=new THREE.Vector2();
 let selected=null,count=0;
-
 renderer.domElement.addEventListener('click',e=>{
  pointer.x=(e.clientX/innerWidth)*2-1;
  pointer.y=-(e.clientY/innerHeight)*2+1;
@@ -302,6 +279,11 @@ document.getElementById('cart').onclick=()=>{
  alert('تعداد محصولات انتخاب‌شده: '+count);
 };
 
+// ورود از عکس به فروشگاه سه‌بعدی
+document.getElementById('enterBtn').onclick=()=>{
+ document.getElementById('entrance').style.display='none';
+};
+
 // اجرای فروشگاه
 function animate(){
  requestAnimationFrame(animate);
@@ -310,8 +292,11 @@ function animate(){
  camera.rotation.x=pitch;
 
  const forward=(keys.w||keys.arrowup?-1:0)+(keys.s||keys.arrowdown?1:0)-joyY;
- const side=(keys.d||keys.arrowright?1:0)+(keys.a||keys.arrowleft?-1:0)+joyX;
+ const side=(keys.d||keys.arrowright?1:0)+(keys.a||keys.arrowleft?-1:0);
  const speed=.085;
+
+ // چرخش با حرکت افقی دسته گرد
+ yaw-=joyX*.035;
 
  camera.position.x+=Math.cos(yaw)*side*speed+Math.sin(yaw)*forward*speed;
  camera.position.z+=-Math.sin(yaw)*side*speed+Math.cos(yaw)*forward*speed;
