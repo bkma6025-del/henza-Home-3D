@@ -3,89 +3,250 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HENZA HOME | گالری فروشگاه</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HENZA HOME</title>
+
 <style>
-*{box-sizing:border-box}
-html,body{
- margin:0;width:100%;height:100%;
- overflow:hidden;background:#fff;
- font-family:Tahoma,Arial,sans-serif;
+* {
+  box-sizing: border-box;
 }
-header{
- height:65px;display:flex;align-items:center;
- justify-content:center;background:#fff;
- border-bottom:1px solid #eee;
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+  font-family: Tahoma, Arial, sans-serif;
 }
-header b{font-size:21px;color:#a17b3c;letter-spacing:2px}
-main{
- position:relative;width:100%;height:calc(100% - 65px);
- display:flex;align-items:center;justify-content:center;
- background:#fff;overflow:hidden;
+
+header {
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  position: relative;
+  z-index: 5;
 }
-#photo{
- width:100%;height:100%;object-fit:contain;
- display:block;transition:opacity .25s;
+
+header b {
+  color: #a17b3c;
+  font-size: 21px;
+  letter-spacing: 2px;
 }
-.control{
- position:absolute;top:50%;transform:translateY(-50%);
- width:45px;height:45px;border:0;border-radius:50%;
- background:#ffffffdf;color:#333;
- font-size:27px;box-shadow:0 2px 12px #0002;
- cursor:pointer;
+
+main {
+  position: relative;
+  width: 100%;
+  height: calc(100dvh - 65px);
+  overflow: hidden;
+  background: #fff;
 }
-#next{left:15px}
-#prev{right:15px}
-#counter{
- position:absolute;bottom:18px;left:50%;
- transform:translateX(-50%);
- background:#ffffffdf;padding:9px 18px;
- border-radius:30px;font-size:13px;color:#444;
+
+#photo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transform: scale(1);
+  opacity: 1;
+  filter: blur(0);
+  transition:
+    transform 1.1s cubic-bezier(.7,0,.3,1),
+    opacity .8s ease,
+    filter .8s ease;
+}
+
+#photo.entering {
+  transform: scale(3);
+  opacity: 0;
+  filter: blur(9px);
+}
+
+#photo.leaving {
+  transform: scale(.65);
+  opacity: 0;
+  filter: blur(8px);
+}
+
+#photo.arriving {
+  animation: arrive 1.1s ease both;
+}
+
+@keyframes arrive {
+  from {
+    transform: scale(1.35);
+    opacity: 0;
+    filter: blur(12px);
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.overlay {
+  position: absolute;
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 90%;
+  z-index: 3;
+}
+
+.action {
+  border: 1px solid #b18b4b;
+  background: #fff;
+  color: #8c682f;
+  border-radius: 30px;
+  padding: 14px 30px;
+  font-size: 15px;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 5px 22px #0002;
+  transition: .25s;
+}
+
+.action:active {
+  transform: scale(.95);
+}
+
+.action:hover {
+  background: #a17b3c;
+  color: #fff;
+}
+
+#back {
+  display: none;
+}
+
+#status {
+  color: #777;
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+@media (max-width: 600px) {
+  header {
+    height: 58px;
+  }
+
+  main {
+    height: calc(100dvh - 58px);
+  }
+
+  header b {
+    font-size: 18px;
+  }
+
+  .overlay {
+    bottom: 25px;
+  }
 }
 </style>
 </head>
+
 <body>
-<header><b>HENZA HOME</b></header>
+
+<header>
+  <b>HENZA HOME</b>
+</header>
+
 <main>
-<img id="photo" src="image-1794985931564.jpg" alt="تصویر فروشگاه HENZA HOME">
-<button class="control" id="prev" aria-label="تصویر قبلی">›</button>
-<button class="control" id="next" aria-label="تصویر بعدی">‹</button>
-<div id="counter">۱ از ۲</div>
+
+  <img
+    id="photo"
+    src="image-1794985931564.jpg"
+    alt="نمای بیرونی فروشگاه"
+  >
+
+  <div class="overlay">
+    <button class="action" id="enter">
+      ورود به فروشگاه
+    </button>
+
+    <button class="action" id="back">
+      بازگشت به ورودی
+    </button>
+
+    <div id="status">به فروشگاه ما خوش آمدید</div>
+  </div>
+
 </main>
+
 <script>
-const photos=[
- "image-1794985931564.jpg",
- "image-1794985942259.jpg"
+const photos = [
+  "image-1794985931564.jpg",
+  "image-1794985942259.jpg"
 ];
-let current=0;
-const photo=document.getElementById("photo");
-const counter=document.getElementById("counter");
 
-function show(index){
- current=(index+photos.length)%photos.length;
- photo.style.opacity="0";
- setTimeout(()=>{
-  photo.src=photos[current];
-  counter.textContent=(current+1).toLocaleString("fa-IR")+" از ۲";
-  photo.style.opacity="1";
- },180);
+let inside = false;
+let busy = false;
+
+const photo = document.getElementById("photo");
+const enter = document.getElementById("enter");
+const back = document.getElementById("back");
+const status = document.getElementById("status");
+
+function moveToShop() {
+  if (busy || inside) return;
+  busy = true;
+
+  photo.classList.remove("arriving");
+  photo.classList.add("entering");
+
+  setTimeout(() => {
+    photo.src = photos[1];
+
+    photo.onload = () => {
+      photo.classList.remove("entering");
+      photo.classList.add("arriving");
+
+      inside = true;
+      enter.style.display = "none";
+      back.style.display = "inline-block";
+      status.textContent = "به فضای داخلی HENZA HOME خوش آمدید";
+
+      setTimeout(() => {
+        busy = false;
+      }, 1100);
+    };
+  }, 850);
 }
-document.getElementById("next").onclick=()=>show(current+1);
-document.getElementById("prev").onclick=()=>show(current-1);
 
-let startX=0;
-photo.addEventListener("touchstart",e=>{
- startX=e.touches[0].clientX;
-},{passive:true});
-photo.addEventListener("touchend",e=>{
- const diff=e.changedTouches[0].clientX-startX;
- if(Math.abs(diff)>45)show(current+(diff<0?1:-1));
-},{passive:true});
+function returnToEntrance() {
+  if (busy || !inside) return;
+  busy = true;
 
-document.addEventListener("keydown",e=>{
- if(e.key==="ArrowLeft")show(current+1);
- if(e.key==="ArrowRight")show(current-1);
-});
+  photo.classList.remove("arriving");
+  photo.classList.add("leaving");
+
+  setTimeout(() => {
+    photo.src = photos[0];
+
+    photo.onload = () => {
+      photo.classList.remove("leaving");
+      photo.classList.add("arriving");
+
+      inside = false;
+      back.style.display = "none";
+      enter.style.display = "inline-block";
+      status.textContent = "به فروشگاه ما خوش آمدید";
+
+      setTimeout(() => {
+        busy = false;
+      }, 1100);
+    };
+  }, 650);
+}
+
+enter.addEventListener("click", moveToShop);
+back.addEventListener("click", returnToEntrance);
 </script>
+
 </body>
 </html>
