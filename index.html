@@ -3,313 +3,274 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>HENZA HOME | فروشگاه سه‌بعدی</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;overflow:hidden;background:#eee;color:#28231d;font-family:Tahoma,Arial}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Tahoma,Arial;background:#eee}
 #scene{position:fixed;inset:0}
-#entrance{position:fixed;inset:0;z-index:30;background:#171511 url('photo1.jpg') center/cover no-repeat;display:flex;align-items:end;justify-content:center;padding:35px}
-#entrance:before{content:"";position:absolute;inset:0;background:linear-gradient(transparent 35%,#000b)}
-#enterBtn{position:relative;z-index:1;border:1px solid #d5b477;background:#a17b3c;color:white;padding:16px 38px;border-radius:12px;font: bold 17px Tahoma;box-shadow:0 5px 25px #0008}
-#top{position:fixed;top:14px;right:14px;left:14px;display:flex;justify-content:space-between;align-items:center;z-index:5;pointer-events:none}
-.brand{background:#fffdf4ef;padding:12px 18px;border-radius:14px;box-shadow:0 3px 18px #0002}
-.brand b{font-size:19px;letter-spacing:2px;color:#a17b3c}
-.brand small{display:block;font-size:10px;margin-top:5px;color:#655b4b}
-#hint{background:#fffdf4ef;padding:11px 14px;border-radius:12px;font-size:11px}
-#bottom{position:fixed;bottom:18px;right:15px;left:15px;display:flex;justify-content:space-between;align-items:end;pointer-events:none;z-index:5}
-#joystick{width:112px;height:112px;border-radius:50%;background:#ffffff55;border:2px solid #fff;position:relative;pointer-events:auto;touch-action:none}
-#stick{width:42px;height:42px;border-radius:50%;background:#b18a4b;position:absolute;left:33px;top:33px;box-shadow:0 2px 9px #0004}
-#info{background:#fffdf4ed;border-radius:12px;padding:12px 16px;font-size:12px;line-height:2}
-#product{position:fixed;display:none;z-index:8;bottom:145px;left:50%;transform:translateX(-50%);background:#fff;padding:16px 22px;border-radius:16px;text-align:center;box-shadow:0 5px 25px #0003;min-width:220px}
-#product button{border:0;background:#a17b3c;color:white;padding:10px 20px;border-radius:9px;margin-top:8px;font-family:inherit}
-#cart{position:fixed;top:88px;right:14px;z-index:5;background:white;border:0;border-radius:12px;padding:12px 16px;font-size:12px}
-#loading{position:fixed;inset:0;display:grid;place-items:center;background:#f7f4ed;z-index:20;font-size:15px}
-@media(min-width:700px){#joystick{display:none}#info:after{content:" | حرکت: W A S D · نگاه: ماوس"}}
+#entrance{position:fixed;inset:0;z-index:10;background:#171511 url('image-1794985931564.jpg') center/cover no-repeat;display:flex;align-items:flex-end;justify-content:center;padding:30px}
+#entrance:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 35%,#0009)}
+#enter{position:relative;z-index:1;background:#a17b3c;color:white;border:1px solid #e4c98e;border-radius:12px;padding:16px 28px;font:bold 17px Tahoma}
+#brand{position:fixed;z-index:4;top:12px;right:12px;background:#fffE;padding:12px 16px;border-radius:12px;color:#9b753a;font-weight:bold}
+#help{position:fixed;z-index:4;top:12px;left:12px;background:#fffE;border-radius:12px;padding:10px;font-size:11px}
+#joy{position:fixed;z-index:5;bottom:20px;left:20px;width:112px;height:112px;border:2px solid #fff;background:#ffffff55;border-radius:50%;touch-action:none}
+#knob{position:absolute;left:33px;top:33px;width:42px;height:42px;border-radius:50%;background:#a17b3c;box-shadow:0 2px 8px #0005}
+#note{position:fixed;z-index:4;bottom:24px;right:14px;background:#fffE;border-radius:10px;padding:10px;font-size:11px;line-height:1.8}
+#loading{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:#f6f2e9;color:#4c4030}
+@media(min-width:700px){#joy{display:none}#note:after{content:" | حرکت با W A S D و نگاه با ماوس"}}
 </style>
 </head>
 <body>
-<div id="loading">در حال آماده‌سازی فروشگاه HENZA HOME...</div>
-<div id="entrance"><button id="enterBtn">ورود به فروشگاه HENZA HOME</button></div>
+<div id="loading">در حال بارگذاری فروشگاه HENZA HOME...</div>
+<div id="entrance"><button id="enter">ورود به فروشگاه HENZA HOME</button></div>
 <div id="scene"></div>
-
-<div id="top">
- <div class="brand"><b>HENZA HOME</b><small>تجربه خرید در فضای سه‌بعدی</small></div>
- <div id="hint">برای دیدن فروشگاه حرکت کن</div>
-</div>
-
-<button id="cart">سبد خرید: <span id="count">۰</span></button>
-
-<div id="bottom">
- <div id="joystick"><div id="stick"></div></div>
- <div id="info">فروشگاه سه‌بعدی<br>دسته را به چپ و راست بچرخان و به جلو حرکت کن</div>
-</div>
-
-<div id="product">
- <b id="pname">محصول</b><br>
- <span>برای افزودن به سبد خرید</span><br>
- <button id="add">افزودن به سبد</button>
- <br><button id="close" style="background:#777">بستن</button>
-</div>
+<div id="brand">HENZA HOME</div>
+<div id="help">برای دیدن قفسه‌ها حرکت کن</div>
+<div id="joy"><div id="knob"></div></div>
+<div id="note">نمایش سه‌بعدی با عکس‌های واقعی فروشگاه<br>دسته را به چپ، راست، بالا و پایین بکش</div>
 
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
+const root=document.querySelector('#scene');
 const scene=new THREE.Scene();
-scene.background=new THREE.Color(0xe9e5dc);
-scene.fog=new THREE.Fog(0xe9e5dc,18,42);
-
-const camera=new THREE.PerspectiveCamera(70,innerWidth/innerHeight,.1,100);
-camera.position.set(0,1.7,8);
+scene.background=new THREE.Color(0x252321);
+scene.fog=new THREE.Fog(0x252321,20,48);
+const camera=new THREE.PerspectiveCamera(68,innerWidth/innerHeight,.1,100);
+camera.position.set(0,1.65,8);
 
 const renderer=new THREE.WebGLRenderer({antialias:true});
 renderer.setSize(innerWidth,innerHeight);
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-renderer.shadowMap.enabled=true;
-renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 renderer.outputColorSpace=THREE.SRGBColorSpace;
-document.getElementById('scene').appendChild(renderer.domElement);
+renderer.shadowMap.enabled=true;
+root.appendChild(renderer.domElement);
 
-scene.add(new THREE.HemisphereLight(0xffffff,0x9b8c75,2));
-const light=new THREE.DirectionalLight(0xfff0d4,2.5);
-light.position.set(3,9,5);
+scene.add(new THREE.HemisphereLight(0xffffff,0x776b5b,2.0));
+const light=new THREE.DirectionalLight(0xffe2b0,2.2);
+light.position.set(2,8,5);
 light.castShadow=true;
 scene.add(light);
 
-function mat(color,rough=.55,metal=0){
- return new THREE.MeshStandardMaterial({color,roughness:rough,metalness:metal});
-}
-const cream=mat(0xf0ece3),gold=mat(0xb28a4b,.3,.65);
-const dark=mat(0x33302d),marble=mat(0xd9d5ce,.25);
-const glass=new THREE.MeshPhysicalMaterial({color:0xd8e6e8,transparent:true,opacity:.23,roughness:.08});
+const mat=(c,r=.65,m=0)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});
 
 function box(x,y,z,w,h,d,m){
  const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);
  o.position.set(x,y,z);
- o.castShadow=true;o.receiveShadow=true;scene.add(o);return o;
-}
-function cylinder(x,y,z,r1,r2,h,m){
- const o=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,32),m);
- o.position.set(x,y,z);o.castShadow=true;scene.add(o);return o;
-}
-
-// کف و دیوارهای فروشگاه
-box(0,-.16,0,22,.3,25,marble);
-box(0,3,-12,22,6,.3,cream);
-box(-11,3,0,.3,6,24,cream);
-box(11,3,0,.3,6,24,cream);
-box(0,5.9,0,22,.2,24,cream);
-
-for(let i=-9;i<=9;i+=3)box(i,.002,0,.018,.006,23,mat(0xc4bdb1));
-for(let i=-10;i<=10;i+=3)box(0,.003,i,21,.006,.018,mat(0xc4bdb1));
-
-// ورودی شیشه‌ای
-box(-2,1.6,-11.78,.08,3.2,.12,gold);
-box(2,1.6,-11.78,.08,3.2,.12,gold);
-box(0,3.2,-11.78,4,.08,.12,gold);
-box(-1,1.6,-11.8,1.9,3,.04,glass);
-box(1,1.6,-11.8,1.9,3,.04,glass);
-cylinder(1.65,1.5,-11.7,.045,.045,.65,gold);
-
-// قفسه‌ها
-function shelf(x,z){
- box(x,1.7,z,3.4,3.4,.65,dark);
- for(let y=.55;y<3.3;y+=.9){
-  box(x,y,z-.38,3.25,.09,.8,gold);
-  box(x,y+.08,z-.38,3.18,.06,.7,cream);
- }
- for(let y=.65;y<3.4;y+=.9){
-  const l=new THREE.PointLight(0xffd99b,1.5,3);
-  l.position.set(x,y+.18,z-.7);scene.add(l);
- }
-}
-shelf(-7,-5);shelf(7,-5);
-shelf(-7,1);shelf(7,1);
-shelf(-7,7);shelf(7,7);
-
-// محصولات
-const products=[];
-function product(x,y,z,type,name){
- let obj;
- if(type===0){
-  obj=cylinder(x,y+.35,z,.32,.25,.7,mat(0xb9b7b1,.2,.5));
-  cylinder(x,y+.72,z,.28,.28,.08,gold);
- }else if(type===1){
-  obj=cylinder(x,y+.28,z,.38,.3,.55,mat(0x292929,.22,.4));
-  cylinder(x,y+.58,z,.31,.31,.07,gold);
- }else{
-  obj=cylinder(x,y+.3,z,.27,.4,.6,mat(0xe7dfd0,.2,.2));
-  cylinder(x,y+.63,z,.29,.29,.06,gold);
- }
- obj.userData.name=name;products.push(obj);
+ o.receiveShadow=true;
+ o.castShadow=true;
+ scene.add(o);
+ return o;
 }
 
-const names=['قابلمه لوکس','سرویس آشپزخانه','ظرف دکوری','کتری مدرن'];
-let n=0;
-for(const side of [-7,7]){
- for(const z of [-5,1,7]){
-  for(let j=0;j<3;j++){
-   product(side+(j-1)*.9,.65,z-.43,j%3,names[n%4]);n++;
-  }
- }
+const floorMat=mat(0xd6d0c5,.25);
+const wallMat=mat(0x383632,.8);
+const trim=mat(0x9d8054,.35,.45);
+
+box(0,-.13,0,22,.25,26,floorMat);
+box(0,4,-12,22,8,.3,wallMat);
+box(-11,4,0,.3,8,24,wallMat);
+box(11,4,0,.3,8,24,wallMat);
+box(0,7.9,0,22,.2,24,mat(0x292725));
+
+// عکس‌های واقعی فروشگاه
+const loader=new THREE.TextureLoader();
+loader.setCrossOrigin('anonymous');
+
+const photos=[
+'image-1794985942259.jpg',
+'image-1794985956292.jpg'
+];
+
+function photoPanel(url,x,z,w,h,rotation=0){
+ const tex=loader.load(url,()=>{},undefined,()=>console.warn('بارگذاری عکس ناموفق:',url));
+ tex.colorSpace=THREE.SRGBColorSpace;
+
+ const mesh=new THREE.Mesh(
+  new THREE.PlaneGeometry(w,h),
+  new THREE.MeshBasicMaterial({map:tex,side:THREE.DoubleSide})
+ );
+ mesh.position.set(x,2.8,z);
+ mesh.rotation.y=rotation;
+ scene.add(mesh);
+
+ const frame=new THREE.Mesh(
+  new THREE.BoxGeometry(w+.14,h+.14,.12),
+  trim
+ );
+ frame.position.set(x,2.8,z-.07);
+ frame.rotation.y=rotation;
+ scene.add(frame);
+
+ mesh.position.z += rotation===0 ? -.14 : 0;
+ return mesh;
 }
 
-for(const z of [-4,2,8]){
- box(0,.55,z,3.5,1.1,1.6,cream);
- box(0,1.12,z,3.55,.09,1.65,gold);
- product(-1,1.2,z,0,'قابلمه ویژه');
- product(0,1.2,z,1,'سرویس آشپزخانه');
- product(1,1.2,z,2,'ظرف دکوری');
+photoPanel(photos[0],-7.5,-5,6.5,8,Math.PI/2);
+photoPanel(photos[1],7.5,1,6.5,8,-Math.PI/2);
+photoPanel(photos[1],-7.5,5,6.5,8,Math.PI/2);
+photoPanel(photos[0],7.5,-7,6.5,8,-Math.PI/2);
+
+// چراغ‌های سقف
+for(let z=-9;z<=7;z+=4){
+ const lamp=new THREE.Mesh(
+  new THREE.BoxGeometry(2.2,.06,.35),
+  new THREE.MeshBasicMaterial({color:0xffe5b5})
+ );
+ lamp.position.set(0,7.75,z);
+ scene.add(lamp);
+
+ const pl=new THREE.PointLight(0xffdca3,1.1,7);
+ pl.position.set(0,6.8,z);
+ scene.add(pl);
 }
 
-// گلدان‌های تزئینی
-for(const x of [-9.5,9.5]){
- cylinder(x,.35,10,.4,.3,.7,mat(0xb9a58a));
- for(let i=0;i<5;i++){
-  const leaf=new THREE.Mesh(new THREE.ConeGeometry(.12,.9,8),mat(0x667a58));
-  leaf.position.set(x+(Math.random()-.5)*.5,.95,10+(Math.random()-.5)*.5);
-  leaf.rotation.z=(Math.random()-.5)*.8;scene.add(leaf);
- }
-}
+// تابلو فروشگاه
+const signCanvas=document.createElement('canvas');
+signCanvas.width=1024;
+signCanvas.height=256;
+const ctx=signCanvas.getContext('2d');
+ctx.fillStyle='#201f1d';
+ctx.fillRect(0,0,1024,256);
+ctx.fillStyle='#c6a16a';
+ctx.font='bold 112px Arial';
+ctx.textAlign='center';
+ctx.fillText('HENZA HOME',512,165);
 
-// تابلو برند
-const canvas=document.createElement('canvas');
-canvas.width=1024;canvas.height=256;
-const ctx=canvas.getContext('2d');
-ctx.fillStyle='#292725';ctx.fillRect(0,0,1024,256);
-ctx.fillStyle='#c7a46a';ctx.font='bold 100px Arial';
-ctx.textAlign='center';ctx.fillText('HENZA HOME',512,155);
-const texture=new THREE.CanvasTexture(canvas);
-const sign=new THREE.Mesh(new THREE.PlaneGeometry(5,1.25),new THREE.MeshBasicMaterial({map:texture}));
-sign.position.set(0,4.5,-11.55);scene.add(sign);
+const signTex=new THREE.CanvasTexture(signCanvas);
+const sign=new THREE.Mesh(
+ new THREE.PlaneGeometry(5,1.25),
+ new THREE.MeshBasicMaterial({map:signTex})
+);
+sign.position.set(0,4,-11.7);
+scene.add(sign);
 
 // کنترل دوربین
 let yaw=0,pitch=0;
 const keys={};
+
 addEventListener('keydown',e=>keys[e.key.toLowerCase()]=true);
 addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
 
-let dragging=false,lastX=0,lastY=0;
+let drag=false,lastX=0,lastY=0;
+
 renderer.domElement.addEventListener('pointerdown',e=>{
- if(e.pointerType==='mouse'&&e.button===0){
-  dragging=true;lastX=e.clientX;lastY=e.clientY;
+ if(e.pointerType==='mouse'){
+  drag=true;
+  lastX=e.clientX;
+  lastY=e.clientY;
  }
 });
-addEventListener('pointerup',()=>dragging=false);
+
+addEventListener('pointerup',()=>drag=false);
+
 addEventListener('pointermove',e=>{
- if(dragging){
+ if(drag){
   yaw-=(e.clientX-lastX)*.004;
   pitch-=(e.clientY-lastY)*.003;
-  pitch=Math.max(-1,Math.min(1,pitch));
-  lastX=e.clientX;lastY=e.clientY;
+  pitch=THREE.MathUtils.clamp(pitch,-.8,.8);
+  lastX=e.clientX;
+  lastY=e.clientY;
  }
 });
 
-// دسته گرد: جلو و عقب حرکت، چپ و راست چرخش دوربین
-const joy=document.getElementById('joystick');
-const stick=document.getElementById('stick');
-let joyX=0,joyY=0;
+// دسته گرد گوشی
+const joy=document.querySelector('#joy');
+const knob=document.querySelector('#knob');
+let jx=0,jy=0;
+
+function moveJoy(e){
+ const r=joy.getBoundingClientRect();
+ let x=e.clientX-r.left-r.width/2;
+ let y=e.clientY-r.top-r.height/2;
+ const l=Math.hypot(x,y),max=35;
+
+ if(l>max){
+  x=x/l*max;
+  y=y/l*max;
+ }
+
+ jx=x/max;
+ jy=y/max;
+ knob.style.left=(33+x)+'px';
+ knob.style.top=(33+y)+'px';
+}
 
 joy.addEventListener('pointerdown',e=>{
- joy.setPointerCapture(e.pointerId);moveJoy(e);
+ joy.setPointerCapture(e.pointerId);
+ moveJoy(e);
 });
+
 joy.addEventListener('pointermove',e=>{
  if(e.buttons)moveJoy(e);
 });
-function moveJoy(e){
- const r=joy.getBoundingClientRect();
- let x=e.clientX-(r.left+r.width/2);
- let y=e.clientY-(r.top+r.height/2);
- const len=Math.hypot(x,y),max=35;
- if(len>max){x=x/len*max;y=y/len*max;}
- joyX=x/max;joyY=y/max;
- stick.style.left=(33+x)+'px';
- stick.style.top=(33+y)+'px';
-}
-function resetJoy(){
- joyX=0;joyY=0;
- stick.style.left='33px';stick.style.top='33px';
-}
-joy.addEventListener('pointerup',resetJoy);
-joy.addEventListener('pointercancel',resetJoy);
 
-// نگاه با کشیدن انگشت روی صفحه
-let touchLook=null;
+function reset(){
+ jx=jy=0;
+ knob.style.left='33px';
+ knob.style.top='33px';
+}
+
+joy.addEventListener('pointerup',reset);
+joy.addEventListener('pointercancel',reset);
+
+// چرخاندن نگاه با کشیدن انگشت
+let look=null;
+
 renderer.domElement.addEventListener('touchstart',e=>{
- if(e.touches.length===1)touchLook={x:e.touches[0].clientX,y:e.touches[0].clientY};
+ if(e.touches.length===1){
+  look={x:e.touches[0].clientX,y:e.touches[0].clientY};
+ }
 },{passive:true});
+
 renderer.domElement.addEventListener('touchmove',e=>{
- if(touchLook&&e.touches.length===1){
+ if(look&&e.touches.length===1){
   const t=e.touches[0];
-  yaw-=(t.clientX-touchLook.x)*.006;
-  pitch-=(t.clientY-touchLook.y)*.004;
-  pitch=Math.max(-1,Math.min(1,pitch));
-  touchLook={x:t.clientX,y:t.clientY};
+  yaw-=(t.clientX-look.x)*.005;
+  pitch=THREE.MathUtils.clamp(pitch-(t.clientY-look.y)*.003,-.8,.8);
+  look={x:t.clientX,y:t.clientY};
  }
 },{passive:true});
-renderer.domElement.addEventListener('touchend',()=>touchLook=null);
 
-// انتخاب محصول
-const raycaster=new THREE.Raycaster();
-const pointer=new THREE.Vector2();
-let selected=null,count=0;
-renderer.domElement.addEventListener('click',e=>{
- pointer.x=(e.clientX/innerWidth)*2-1;
- pointer.y=-(e.clientY/innerHeight)*2+1;
- raycaster.setFromCamera(pointer,camera);
- const hits=raycaster.intersectObjects(products);
- if(hits.length){
-  selected=hits[0].object;
-  document.getElementById('pname').textContent=selected.userData.name;
-  document.getElementById('product').style.display='block';
- }
-});
+renderer.domElement.addEventListener('touchend',()=>look=null);
 
-document.getElementById('add').onclick=()=>{
- if(selected){
-  count++;
-  document.getElementById('count').textContent=count.toLocaleString('fa-IR');
-  document.getElementById('product').style.display='none';
- }
-};
-document.getElementById('close').onclick=()=>{
- document.getElementById('product').style.display='none';
-};
-document.getElementById('cart').onclick=()=>{
- alert('تعداد محصولات انتخاب‌شده: '+count);
+// ورود به فروشگاه
+document.querySelector('#enter').onclick=()=>{
+ document.querySelector('#entrance').style.display='none';
 };
 
-// ورود از عکس به فروشگاه سه‌بعدی
-document.getElementById('enterBtn').onclick=()=>{
- document.getElementById('entrance').style.display='none';
-};
-
-// اجرای فروشگاه
+// اجرای سه‌بعدی
 function animate(){
  requestAnimationFrame(animate);
+
+ yaw-=jx*.035;
+
+ const f=
+  (keys.w||keys.arrowup?-1:0)+
+  (keys.s||keys.arrowdown?1:0)-jy;
+
+ const s=
+  (keys.d||keys.arrowright?1:0)+
+  (keys.a||keys.arrowleft?-1:0);
+
+ const speed=.075;
+
+ camera.position.x+=Math.cos(yaw)*s*speed+Math.sin(yaw)*f*speed;
+ camera.position.z+=-Math.sin(yaw)*s*speed+Math.cos(yaw)*f*speed;
+
+ camera.position.x=THREE.MathUtils.clamp(camera.position.x,-9.5,9.5);
+ camera.position.z=THREE.MathUtils.clamp(camera.position.z,-10.5,10.5);
+
  camera.rotation.order='YXZ';
  camera.rotation.y=yaw;
  camera.rotation.x=pitch;
 
- const forward=(keys.w||keys.arrowup?-1:0)+(keys.s||keys.arrowdown?1:0)-joyY;
- const side=(keys.d||keys.arrowright?1:0)+(keys.a||keys.arrowleft?-1:0);
- const speed=.085;
-
- // چرخش با حرکت افقی دسته گرد
- yaw-=joyX*.035;
-
- camera.position.x+=Math.cos(yaw)*side*speed+Math.sin(yaw)*forward*speed;
- camera.position.z+=-Math.sin(yaw)*side*speed+Math.cos(yaw)*forward*speed;
-
- camera.position.x=THREE.MathUtils.clamp(camera.position.x,-9.8,9.8);
- camera.position.z=THREE.MathUtils.clamp(camera.position.z,-11,11);
- camera.position.y=1.7;
-
  renderer.render(scene,camera);
 }
-animate();
 
-document.getElementById('loading').style.display='none';
+animate();
+document.querySelector('#loading').style.display='none';
 
 addEventListener('resize',()=>{
  camera.aspect=innerWidth/innerHeight;
